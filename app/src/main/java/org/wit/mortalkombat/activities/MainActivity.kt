@@ -13,7 +13,7 @@ import org.wit.mortalkombat.main.MainApp
 class MainActivity : AppCompatActivity(), AnkoLogger {
 
     var character = CharacterModel()
-    var app : MainApp? = null
+    lateinit var app : MainApp
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,12 +24,12 @@ class MainActivity : AppCompatActivity(), AnkoLogger {
             character.title = mortalkombatTitle.text.toString()
             character.description = description.text.toString()
             if (character.title.isNotEmpty()) {
-                app!!.characters.add(character.copy())
+                app.characters.add(character.copy())
                 info("add Button Pressed: $mortalkombatTitle")
-                app!!.characters.forEach { info("add Button Pressed: ${it.title}")}
+                app.characters.forEach { info("add Button Pressed: ${it.title}")}
             }
             else {
-                toast ("Please Enter a title")
+                toast ("Please Enter a name for your Character")
             }
         }
     }
