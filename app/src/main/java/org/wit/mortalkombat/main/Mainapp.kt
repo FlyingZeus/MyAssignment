@@ -14,9 +14,9 @@ class MainApp : Application(), AnkoLogger {
     override fun onCreate() {
         super.onCreate()
         info("Character Creater started")
-        characters.add(CharacterModel("One", "About one..."))
-        characters.add(CharacterModel("Two", "About two..."))
-        characters.add(CharacterModel("Three", "About three..."))
-        characters.add(CharacterModel("Three", "About three..."))
+        //characters.add(CharacterModel("One", "About one..."))
+       // characters.add(CharacterModel("Two", "About two..."))
+       // characters.add(CharacterModel("Three", "About three..."))
+       // characters.add(CharacterModel("Three", "About three..."))
     }
 }

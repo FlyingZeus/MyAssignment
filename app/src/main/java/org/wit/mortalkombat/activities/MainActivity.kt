@@ -27,6 +27,8 @@ class MainActivity : AppCompatActivity(), AnkoLogger {
                 app.characters.add(character.copy())
                 info("add Button Pressed: $mortalkombatTitle")
                 app.characters.forEach { info("add Button Pressed: ${it.title}")}
+                setResult(AppCompatActivity.RESULT_OK)
+                finish()
             }
             else {
                 toast ("Please Enter a name for your Character")
