@@ -1,5 +1,6 @@
 package org.wit.mortalkombat.activities
 
+import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
@@ -10,10 +11,11 @@ import org.wit.mortalkombat.R
 import org.wit.mortalkombat.main.MainApp
 
 import kotlinx.android.synthetic.main.card_character.view.*
+import org.jetbrains.anko.intentFor
 import org.jetbrains.anko.startActivityForResult
 
 import org.wit.mortalkombat.models.CharacterModel
-class CharacterListActivity : AppCompatActivity() {
+class CharacterListActivity : AppCompatActivity(),CharacterListener {
 
     lateinit var app: MainApp
 
@@ -24,7 +26,10 @@ class CharacterListActivity : AppCompatActivity() {
 
         val layoutManager = LinearLayoutManager(this)
         recyclerView.layoutManager = layoutManager
-        recyclerView.adapter = CharacterAdapter(app.characters)
+        loadPlacemarks()
+        //recyclerView.adapter = CharacterAdapter(app.characters.findAll(), this)
+        setTitle(R.string.character_list_title)
+        //setSupportActionBar(toolbarMain)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -36,35 +41,37 @@ class CharacterListActivity : AppCompatActivity() {
         when (item?.itemId) {
             R.id.item_add -> startActivityForResult<MainActivity>(0)
         }
-        return super.onOptionsItemSelected(item)
-    }
-}
 
-
-
-class CharacterAdapter constructor(private var characters: List<CharacterModel>) : RecyclerView.Adapter<CharacterAdapter.MainHolder>() {
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainHolder {
-        return MainHolder(LayoutInflater.from(parent?.context).inflate(R.layout.card_character, parent, false))
-    }
-
-    override fun onBindViewHolder(holder: MainHolder, position: Int) {
-        val character = characters[holder.adapterPosition]
-        holder.bind(character)
-    }
-
-    override fun getItemCount(): Int = characters.size
-
-    class MainHolder constructor(itemView: View) : RecyclerView.ViewHolder(itemView) {
-
-        fun bind(character: CharacterModel) {
-            itemView.characterTitle.text = character.title
-            itemView.description.text = character.description
+        when (item?.itemId) {
+            R.id.wiki -> startActivityForResult<CharacterWiki>(0)
         }
-
+        return super.onOptionsItemSelected(item)
 
 
     }
 
+    override fun onCharacterClick(character: CharacterModel) {
+        startActivityForResult(intentFor<MainActivity>().putExtra("character_edit", character), 0)
+    }
+
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        loadPlacemarks()
+        //recyclerView.adapter?.notifyDataSetChanged()
+        super.onActivityResult(requestCode, resultCode, data)
+    }
+
+    private fun loadPlacemarks() {
+        showPlacemarks(app.characters.findAll())
+    }
+
+    fun showPlacemarks (characters: List<CharacterModel>) {
+        recyclerView.adapter = CharacterAdapter(characters, this)
+        recyclerView.adapter?.notifyDataSetChanged()
+    }
+
 
 }
+
+
+

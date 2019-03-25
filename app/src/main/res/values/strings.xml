@@ -2,12 +2,24 @@
     <string name="app_name">Mortal Kombat</string>
     <string name="button_addCharacter">Add Character</string>
     <string name="hint_characterName">Character Name</string>
-    <string name="hint_characterDescription">Description </string>
+    <string name="hint_characterDescription">Character Description</string>
     <string name="menu_addCharacter">Add</string>
+    <string name="menu_cancelCharacter">Cancel</string>
+    <string name="button_start">Press Start</string>
+    <string name="enter_character_title"> Please enter a Character Title </string>
+    <string name="button_saveCharacter">Save Character</string>
+    <string name="button_addImage"> Add Image </string>
+    <string name="select_character_image">Select character image</string>
+    <string name="character_list_title">Character List</string>
+    <string name="add_character_title">Add your Character</string>
+    <string name="view_edit_character">View/Edit Details</string>
+    <string name="button_changeImage">Change Image</string>
+    <string name="menu_deleteCharacter">Delete</string>
+    <string name="wiki">Wiki</string>
+    <string name="special_moves">special moves</string>
+
+
     ...
-
-
-
 
 
 </resources>

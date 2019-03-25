@@ -12,7 +12,7 @@ class CharacterWiki : AppCompatActivity() {
     //var WebView = webViewid
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        setTitle(R.string.wiki)
 
         setContentView(R.layout.characterwiki_layout)
         mywebview = findViewById<WebView>(R.id.webview)
