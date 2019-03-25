@@ -12,11 +12,15 @@ import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.info
 import org.jetbrains.anko.toast
 import org.wit.mortalkombat.models.CharacterModel
-import org.wit.mortalkombat.R
+
 import org.wit.mortalkombat.helpers.readImage
 import org.wit.mortalkombat.helpers.readImageFromPath
 import org.wit.mortalkombat.main.MainApp
 import org.wit.mortalkombat.helpers.showImagePicker
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
+import org.wit.mortalkombat.R
+
 
 class MainActivity : AppCompatActivity(), AnkoLogger {
 
@@ -25,12 +29,16 @@ class MainActivity : AppCompatActivity(), AnkoLogger {
     var edit = false
     val IMAGE_REQUEST = 1
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         app = application as MainApp
         setTitle(R.string.add_character_title)
+
+        //app.reference.setValue("Hello, World!")
+
 
         if (intent.hasExtra("character_edit"))
         {

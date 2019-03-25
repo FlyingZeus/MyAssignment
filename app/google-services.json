@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "544123304105",
+    "firebase_url": "https://mortalkombat-3000b.firebaseio.com",
+    "project_id": "mortalkombat-3000b",
+    "storage_bucket": "mortalkombat-3000b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:544123304105:android:bc0521c2b711bb54",
+        "android_client_info": {
+          "package_name": "org.wit.mortalkombat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "544123304105-jomj2vbv755u77pds8bpfn5aucq73i9l.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "org.wit.mortalkombat",
+            "certificate_hash": "69db8206b6faf9f503d2975ec60fc388dd1296b6"
+          }
+        },
+        {
+          "client_id": "544123304105-s38kiu156es4p8ll62a7eibn3for66rm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyATLnE5TjQzkd35L-u-je0UvwumFx3Z5kQ"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "544123304105-s38kiu156es4p8ll62a7eibn3for66rm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
