@@ -26,6 +26,11 @@ class CharacterAdapter constructor(private var characters: List<CharacterModel>,
         holder.bind(character,listener)
     }
 
+    fun filterList(findCharacter: ArrayList<CharacterModel>){
+        this.characters = findCharacter
+        notifyDataSetChanged()
+    }
+
     override fun getItemCount(): Int = characters.size
 
     class MainHolder constructor(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -41,6 +46,8 @@ class CharacterAdapter constructor(private var characters: List<CharacterModel>,
             itemView.imageIcon.setImageBitmap(readImageFromPath(itemView.context, character.image))
             itemView.setOnClickListener { listener.onCharacterClick(character) }
         }
+
+
 
 
 

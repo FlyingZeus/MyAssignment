@@ -8,8 +8,10 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.WindowManager
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.card_character.*
 import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.info
+import org.jetbrains.anko.intentFor
 import org.jetbrains.anko.toast
 import org.wit.mortalkombat.models.CharacterModel
 import org.wit.mortalkombat.R
@@ -17,6 +19,7 @@ import org.wit.mortalkombat.helpers.readImage
 import org.wit.mortalkombat.helpers.readImageFromPath
 import org.wit.mortalkombat.main.MainApp
 import org.wit.mortalkombat.helpers.showImagePicker
+import org.wit.mortalkombat.models.Location
 
 class MainActivity : AppCompatActivity(), AnkoLogger {
 
@@ -24,8 +27,11 @@ class MainActivity : AppCompatActivity(), AnkoLogger {
     lateinit var app : MainApp
     var edit = false
     val IMAGE_REQUEST = 1
+    val LOCATION_REQUEST = 2
+    var location = Location(52.245696, -7.139102, 15f)
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -39,6 +45,7 @@ class MainActivity : AppCompatActivity(), AnkoLogger {
             character = intent.extras.getParcelable<CharacterModel>("character_edit")
             characterTitle.setText(character.title)
             characterDescription.setText(character.description)
+            moves.setText(character.moves)
             characterImage.setImageBitmap(readImageFromPath(this, character.image))
 
             if (character.image != null) {
@@ -46,6 +53,7 @@ class MainActivity : AppCompatActivity(), AnkoLogger {
             }
 
             btnAdd.setText(R.string.button_saveCharacter)
+            edit = true
             //chooseImage.setText(R.string.button_changeImage)
         }
 
@@ -82,6 +90,12 @@ class MainActivity : AppCompatActivity(), AnkoLogger {
         chooseImage.setOnClickListener {
             showImagePicker(this, IMAGE_REQUEST)
         }
+
+        characterOrigin.setOnClickListener {
+
+            startActivityForResult(intentFor<MapsActivity>().putExtra("location", location), LOCATION_REQUEST)
+        }
+
         //toolbarAdd.title = title
         //setSupportActionBar(toolbarAdd)
 
@@ -90,6 +104,7 @@ class MainActivity : AppCompatActivity(), AnkoLogger {
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         //menuInflater.inflate(R.menu.menu_main, menu)
         menuInflater.inflate(R.menu.menu_character, menu)
+        if (edit && menu != null) menu.getItem(0).setVisible(true)
         return super.onCreateOptionsMenu(menu)
     }
 
@@ -118,12 +133,18 @@ class MainActivity : AppCompatActivity(), AnkoLogger {
 
                 }
             }
+
+            LOCATION_REQUEST -> {
+                if (data != null) {
+                    location = data.extras.getParcelable<Location>("location")
+
+
+                }
+            }
+
+
         }
     }
-
-
-
-
 }
 
 

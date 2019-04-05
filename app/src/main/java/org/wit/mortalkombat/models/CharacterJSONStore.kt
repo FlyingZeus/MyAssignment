@@ -32,21 +32,23 @@ class CharacterJSONStore : CharacterStore, AnkoLogger {
         return characters
     }
 
-    override fun create(placemark: CharacterModel) {
-        placemark.id = generateRandomId()
-        characters.add(placemark)
+    override fun create(character: CharacterModel) {
+        character.id = generateRandomId()
+        characters.add(character)
         serialize()
     }
 
 
     override fun update(character: CharacterModel) {
-        val placemarksList = findAll() as ArrayList<CharacterModel>
-        var foundCharacter: CharacterModel? = placemarksList.find { p -> p.id == character.id }
+        val characterList = findAll() as ArrayList<CharacterModel>
+        var foundCharacter: CharacterModel? = characterList.find { p -> p.id == character.id }
         if (foundCharacter != null) {
             foundCharacter.title = character.title
             foundCharacter.description = character.description
             foundCharacter.image = character.image
-           // foundPlacemark.lat = character.lat
+            foundCharacter.rating=character.rating
+            foundCharacter.moves=character.moves
+            //foundCharacter.lat = character.lat
             //foundPlacemark.lng = character.lng
            // foundPlacemark.zoom = character.zoom
         }

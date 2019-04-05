@@ -6,9 +6,9 @@
     <string name="menu_addCharacter">Add</string>
     <string name="menu_cancelCharacter">Cancel</string>
     <string name="button_start">Press Start</string>
-    <string name="enter_character_title"> Please enter a Character Title </string>
+    <string name="enter_character_title">Please enter a Character Title</string>
     <string name="button_saveCharacter">Save Character</string>
-    <string name="button_addImage"> Add Image </string>
+    <string name="button_addImage">Add Image</string>
     <string name="select_character_image">Select character image</string>
     <string name="character_list_title">Character List</string>
     <string name="add_character_title">Add your Character</string>
@@ -17,6 +17,13 @@
     <string name="menu_deleteCharacter">Delete</string>
     <string name="wiki">Wiki</string>
     <string name="special_moves">special moves</string>
+    <string name="search_character">search_character</string>
+    <string name="searchHint">search_hint</string>
+    <string name="characterListActivity">characterlistActivity</string>
+    <string name="button_origin">Set Origin</string>
+    <string name="title_activity_maps">Map</string>
+    <string name="origins">origins</string>
+    <string name="title_activity_mortal_kombat_maps">All Character Origins</string>
 
 
     ...

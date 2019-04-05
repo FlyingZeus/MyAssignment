@@ -32,6 +32,9 @@ class CharacterMemStore : CharacterStore, AnkoLogger {
             foundCharacter.title = character.title
             foundCharacter.description = character.description
             foundCharacter.image = character.image
+            foundCharacter.moves = character.moves
+            foundCharacter.rating= character.rating
+
             logAll()
         }
 
@@ -39,8 +42,8 @@ class CharacterMemStore : CharacterStore, AnkoLogger {
 
     }
 
-    override fun delete(placemark: CharacterModel) {
-        characters.remove(placemark)
+    override fun delete(character: CharacterModel) {
+        characters.remove(character)
     }
 
 
