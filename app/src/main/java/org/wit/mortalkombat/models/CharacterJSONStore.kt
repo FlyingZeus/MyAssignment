@@ -33,7 +33,6 @@ class CharacterJSONStore : CharacterStore, AnkoLogger {
     }
 
     override fun create(character: CharacterModel) {
-        character.id = generateRandomId()
         characters.add(character)
         serialize()
     }

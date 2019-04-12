@@ -133,6 +133,24 @@
                 android:hapticFeedbackEnabled="true"/>
 
         <Button
+                android:id="@+id/btnUpdate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:typeface="normal"
+                android:fontFamily="serif-monospace"
+                android:background="@color/colorPrimaryDark"
+                android:paddingBottom="8dp"
+                android:paddingTop="8dp"
+                android:text="@string/btnUpdate"
+                android:textColor="@android:color/holo_red_dark" android:layout_marginTop="16dp"
+                android:layout_marginBottom="26dp" android:layout_marginLeft="16dp" android:layout_marginStart="16dp"
+                android:layout_marginEnd="38dp" android:layout_marginRight="16dp"
+                android:layout_alignParentBottom="true" android:layout_alignParentEnd="true"
+                android:hapticFeedbackEnabled="true"/>
+
+
+        <Button
                 android:id="@+id/characterOrigin"
                 android:layout_width="214dp"
                 android:layout_height="wrap_content"

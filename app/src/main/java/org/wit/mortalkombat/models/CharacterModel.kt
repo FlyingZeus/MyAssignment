@@ -4,12 +4,12 @@ import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-data class CharacterModel(  var image: String = "",
-                            var id: Long = 0,
+data class CharacterModel(  var id: String = "",
+                            var title: String = "",
+                            var description: String = "",
                             var moves: String = "",
                             var rating: Float = 0.0f,
-                            var title: String = "",
-                            var description: String = "") : Parcelable{
+                            var image: String = "") : Parcelable{
 
 }
 

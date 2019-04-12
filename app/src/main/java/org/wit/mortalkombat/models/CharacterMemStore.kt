@@ -3,12 +3,6 @@ package org.wit.mortalkombat.models
 import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.info
 
-var lastId = 0L
-
-internal fun getId(): Long {
-    return lastId++
-}
-
 class CharacterMemStore : CharacterStore, AnkoLogger {
 
     val characters = ArrayList<CharacterModel>()
@@ -19,7 +13,6 @@ class CharacterMemStore : CharacterStore, AnkoLogger {
     }
 
     override fun create(character: CharacterModel) {
-        character.id = getId()
         characters.add(character)
         logAll()
 

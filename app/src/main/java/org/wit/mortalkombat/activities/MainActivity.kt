@@ -6,8 +6,12 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.view.WindowManager
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.activity_main.view.*
 import kotlinx.android.synthetic.main.card_character.*
 import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.info
@@ -19,6 +23,7 @@ import org.wit.mortalkombat.helpers.readImage
 import org.wit.mortalkombat.helpers.readImageFromPath
 import org.wit.mortalkombat.main.MainApp
 import org.wit.mortalkombat.helpers.showImagePicker
+import org.wit.mortalkombat.main.Statics
 import org.wit.mortalkombat.models.Location
 
 class MainActivity : AppCompatActivity(), AnkoLogger {
@@ -29,6 +34,10 @@ class MainActivity : AppCompatActivity(), AnkoLogger {
     val IMAGE_REQUEST = 1
     val LOCATION_REQUEST = 2
     var location = Location(52.245696, -7.139102, 15f)
+    var charList:CharacterModel?=null
+    lateinit var database: FirebaseDatabase
+    lateinit var myRef: DatabaseReference
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -37,11 +46,16 @@ class MainActivity : AppCompatActivity(), AnkoLogger {
         setContentView(R.layout.activity_main)
         app = application as MainApp
         setTitle(R.string.add_character_title)
+        database = FirebaseDatabase.getInstance()
+        myRef = database.getReference("Characters")
 
-        if (intent.hasExtra("character_edit"))
-        {
+        if (intent.hasExtra("character_edit")) {
             setTitle(R.string.view_edit_character)
             edit = true
+            if (edit) {
+                btnAdd.visibility = View.GONE
+                btnUpdate.visibility = View.VISIBLE
+            }
             character = intent.extras.getParcelable<CharacterModel>("character_edit")
             characterTitle.setText(character.title)
             characterDescription.setText(character.description)
@@ -54,7 +68,7 @@ class MainActivity : AppCompatActivity(), AnkoLogger {
 
             btnAdd.setText(R.string.button_saveCharacter)
             edit = true
-            //chooseImage.setText(R.string.button_changeImage)
+
         }
 
         btnAdd.setOnClickListener() {
@@ -62,30 +76,48 @@ class MainActivity : AppCompatActivity(), AnkoLogger {
             character.description = characterDescription.text.toString()
             character.moves = moves.text.toString()
             character.rating = ratingbar.rating
-
-            if (character.title.isNotEmpty()) {
-
-                if (edit){
-                    app.characters.update(character.copy())
-                }
-                else {
-                    app.characters.create(character.copy())
-                }
-                info("Add Button Pressed. name: ${character.title}")
-                setResult(AppCompatActivity.RESULT_OK)
-
-                val intent2= MediaPlayer.create (this, R.raw.excellent_sound)
-                intent2.start()
+            character.image = character.image
 
 
-                finish()
+            if (!character.title.isEmpty()) {
+
+
+                   saveToFirebase()
+                    //app.characters.update(character.copy())
+
+                // else {
+                //    saveToFirebase()
+                //app.characters.create(character.copy())
+                // }
+                //info("Add Button Pressed. name: ${character.title}")
+                // setResult(AppCompatActivity.RESULT_OK)
+                // val intent2= MediaPlayer.create (this, R.raw.excellent_sound)
+                //  intent2.start()
+                // finish()
+            } else {
+                toast(R.string.enter_character_title)
             }
-            else {
-                toast (R.string.enter_character_title)
-            }
+
+            info("Add Button Pressed. name: ${character.title}")
+            setResult(AppCompatActivity.RESULT_OK)
+            val intent2 = MediaPlayer.create(this, R.raw.excellent_sound)
+            intent2.start()
+            finish()
 
 
         }
+
+        btnUpdate.setOnClickListener {
+            if(edit){
+                app.characters.update(character.copy())
+                 charList = CharacterModel(character.id, characterTitle.text.toString(), characterDescription.text.toString(),
+                     characterMoves.text.toString(), ratingbar.rating, character.image)
+                database!!.reference.child("Characters").child(character.id).setValue(charList)
+                finish()
+            }
+        }
+
+
 
         chooseImage.setOnClickListener {
             showImagePicker(this, IMAGE_REQUEST)
@@ -111,7 +143,7 @@ class MainActivity : AppCompatActivity(), AnkoLogger {
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item?.itemId) {
             R.id.item_delete -> {
-                app.characters.delete(character)
+                myRef!!.child(character.id).removeValue()
                 finish()
             }
             R.id.item_cancel -> {
@@ -144,6 +176,32 @@ class MainActivity : AppCompatActivity(), AnkoLogger {
 
 
         }
+    }
+
+    fun updateFirebase()
+    {
+
+
+                app.characters.update(charList!!.copy())
+                var myCharacters = CharacterModel(
+                    charList!!.id,
+                    characterTitle.text.toString(),
+                    characterDescription.text.toString(),
+                    characterMoves.text.toString(),
+                    ratingbar.rating,
+                    charList!!.image
+                )
+                database!!.reference.child("Characters").child(charList!!.id).setValue(myCharacters)
+                finish()
+            }
+
+
+
+    fun saveToFirebase(){
+        val chars = database!!.getReference("Characters").push().key
+        charList = CharacterModel(chars!!, characterTitle.text.toString(), characterDescription.text.toString(),
+             moves.text.toString(),ratingbar.rating, character.image)
+        myRef!!.child(chars!!).setValue(charList)
     }
 }
 

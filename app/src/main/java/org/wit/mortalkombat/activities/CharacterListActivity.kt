@@ -12,6 +12,8 @@ import android.text.TextWatcher
 import android.util.Log
 import android.view.*
 import android.widget.SearchView
+import com.google.firebase.FirebaseApp
+import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.activity_character_list.*
 import org.wit.mortalkombat.R
 import org.wit.mortalkombat.main.MainApp
@@ -20,6 +22,7 @@ import kotlinx.android.synthetic.main.card_character.view.*
 import org.jetbrains.anko.intentFor
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.startActivityForResult
+import org.jetbrains.anko.toast
 import org.wit.mortalkombat.main.Statics
 
 import org.wit.mortalkombat.models.CharacterModel
@@ -28,22 +31,30 @@ class CharacterListActivity : AppCompatActivity(),CharacterListener {
     lateinit var app: MainApp
     var characterAdapter: CharacterAdapter? = null
     var layoutManager: RecyclerView.LayoutManager? = null
+    lateinit var database: FirebaseDatabase
+    lateinit var myRef: DatabaseReference
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_character_list)
+        database = FirebaseDatabase.getInstance()
+        myRef = database.getReference("Characters")
+
         app = application as MainApp
         Statics.characterList = ArrayList()
 
         for(chars in app.characters.findAll()){
             Statics.characterList!!.add(chars)
         }
-        layoutManager = LinearLayoutManager(this)
-        recyclerView.layoutManager = layoutManager
-        characterAdapter = CharacterAdapter(Statics.characterList!!, this@CharacterListActivity)
-        Log.i("TAG", "${Statics.characterList!!.size}")
-        recyclerView.adapter = characterAdapter
-        recyclerView.adapter?.notifyDataSetChanged()
+        getCharactersFromDatabase()
+//        layoutManager = LinearLayoutManager(this)
+//        recyclerView.layoutManager = layoutManager
+//        characterAdapter = CharacterAdapter(Statics.characterList!!, this@CharacterListActivity)
+//        Log.i("TAG", "${Statics.characterList!!.size}")
+//        recyclerView.adapter = characterAdapter
+//        recyclerView.adapter?.notifyDataSetChanged()
 //        //recyclerView.adapter = CharacterAdapter(characters, this)
 //        recyclerView.adapter?.notifyDataSetChanged()
         //loadCharacters()
@@ -65,6 +76,33 @@ class CharacterListActivity : AppCompatActivity(),CharacterListener {
             }
         })
 
+    }
+
+    fun getCharactersFromDatabase(){
+        database!!.reference.child("Characters").addValueEventListener(object :
+            ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    Statics.characterList!!.clear()//to stop duplication
+                    for (character in dataSnapshot.children) { //looping through infoon firebase
+                        val  myChars = character.getValue(CharacterModel::class.java)
+                        Statics.characterList!!.add(myChars!!)//adds database back to list
+                        layoutManager = LinearLayoutManager(applicationContext)
+                        recyclerView.layoutManager = layoutManager
+                        characterAdapter = CharacterAdapter(Statics.characterList!!, this@CharacterListActivity)
+                        recyclerView.adapter = characterAdapter
+                        recyclerView.adapter?.notifyDataSetChanged()
+
+
+
+                    }
+                }
+            }
+            override fun onCancelled(databaseError: DatabaseError) {
+                toast("Failed to retrieve information from database.").show()
+            }
+        }
+        )
     }
 
 
@@ -124,6 +162,8 @@ class CharacterListActivity : AppCompatActivity(),CharacterListener {
             }
         }
     }
+
+
 }
 
 

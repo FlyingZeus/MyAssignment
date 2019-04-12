@@ -40,9 +40,6 @@ class CharacterAdapter constructor(private var characters: List<CharacterModel>,
             itemView.characterDescriptionList.text = character.description
             itemView.characterMoves.text = character.moves
             itemView.ratingbarOnCard.rating=character.rating
-
-
-
             itemView.imageIcon.setImageBitmap(readImageFromPath(itemView.context, character.image))
             itemView.setOnClickListener { listener.onCharacterClick(character) }
         }
