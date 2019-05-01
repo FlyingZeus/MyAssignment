@@ -26,7 +26,7 @@ The Last Colour was white, which was used as the text inputted by the user and d
 
 Analysis
 
-During the App development the material provided for the practical sessions were very helpful as it went through the entire development of a similar application. The practical’s offered hands on time which was extremely important. However, I found the lectures to be quite over whelming and very hard to stay focused on what was being taught. In my opinion I think more practical’s would have benefited the entire class a lot more, as you really don’t learn anything without doing it yourself.
+During the App development the material provided for the practical sessions were very helpful as it went through the entire development of a similar application. The practical’s offered hands on time which was extremely important.
 This was a very challenging module; Android Studio threw up all sorts of issues throughout the development of my app. However, most of these were solved in the practical’s with the help of classmates, the lecturer and Google (Mainly stack overflow).
 Additional Information
 
